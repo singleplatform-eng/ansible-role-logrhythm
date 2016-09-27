@@ -7,7 +7,7 @@ Ansible role for installing and configuring the LogRhythm System Monitor Agent f
 Role Variables
 --------------
 
-- `logrhythm_host`: host for Mediator 1 (REQUIRED)
+- `logrhythm_host`: host for Mediator 1 (this is required, unless you override the entire `logrhythm_config`)
 
 - `logrhythm_client_address`: client address for Mediator 1 (default: 0)
 
