@@ -1,0 +1,14 @@
+---
+
+#logrhythm_host: CHANGE_THIS
+logrhythm_client_address: 0
+logrhythm_package: scsm
+
+logrhythm_config:
+    General:
+        LogLevel: 4
+    'Mediator 1':
+        Host: "{{logrhythm_host}}"
+        ServerPort: 443
+        ClientAddress: "{{logrhythm_client_address}}"
+        ClientPort: 3333

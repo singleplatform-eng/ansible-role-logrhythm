@@ -1,0 +1,21 @@
+---
+
+- name: Install LogRhythem Agent from repo
+  package: name={{logrhythm_package}}
+  when: "'.deb' not in logrhythm_package"
+
+- name: Install LogRhythm Agent from .deb package
+  apt: deb={{logrhythm_package}}
+  when: "'.deb' in logrhythm_package"
+
+- name: Update scsm.ini
+  template:
+      src: scsm.ini.j2
+      dest: /opt/logrhythm/scsm/config/scsm.ini
+      mode: 0600
+      owner: root
+      group: root
+  notify: restart scsm
+
+- name: Ensure scsm is started
+  service: name=scsm state=started enabled=yes

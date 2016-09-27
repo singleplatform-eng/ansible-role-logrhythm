@@ -1,0 +1,7 @@
+{% for section,config in logrhythm_config.iteritems() | sort %}
+[{{section}}]
+{% for k,v in config.iteritems() | sort %}
+{{k}}={{v}}
+{% endfor %}
+
+{% endfor %}
