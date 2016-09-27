@@ -8,6 +8,19 @@
   apt: deb={{logrhythm_package}}
   when: "'.deb' in logrhythm_package"
 
+- name: Remove scsm init script (breaks over ssh connections)
+  file:
+      state: absent
+      path: /etc/init.d/scsm
+
+- name: Copy /etc/init/scsmd.conf
+  copy:
+      src: scsmd_upstart
+      dest: /etc/init/scsmd.conf
+      mode: 0644
+      owner: root
+      group: root
+
 - name: Update scsm.ini
   template:
       src: scsm.ini.j2
@@ -15,7 +28,7 @@
       mode: 0600
       owner: root
       group: root
-  notify: restart scsm
+  notify: restart scsmd
 
 - name: Ensure scsm is started
-  service: name=scsm state=started enabled=yes
+  service: name=scsmd state=started enabled=yes

@@ -1,4 +1,4 @@
 ---
 
-- name: restart scsm
-  service: name=scsm state=restarted
+- name: restart scsmd
+  service: name=scsmd state=restarted
