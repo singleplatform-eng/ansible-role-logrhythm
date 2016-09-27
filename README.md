@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/singleplatform-eng/ansible-role-logrhythm.svg?branch=master)](https://travis-ci.org/singleplatform-eng/ansible-role-logrhythm)
 
 ansible-role-logrhythm
 =========
