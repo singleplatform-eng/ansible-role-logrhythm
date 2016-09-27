@@ -18,6 +18,7 @@ Role Variables
 - `logrhythm_config`: scsm.ini configuration
 
     Default:
+    
         logrhythm_config:
             General:
                 LogLevel: 4
