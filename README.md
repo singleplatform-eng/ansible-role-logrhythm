@@ -5,6 +5,8 @@ ansible-role-logrhythm
 
 Ansible role for installing and configuring the LogRhythm System Monitor Agent for Linux
 
+https://galaxy.ansible.com/singleplatform-eng/logrhythm/
+
 Role Variables
 --------------
 
