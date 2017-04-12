@@ -10,7 +10,6 @@
 - name: Install LogRhythm Agent from .deb package
   apt:
     deb: "{{logrhythm_package}}"
-    state: "{{ logrhythm_package_state | default('present')}}"
   when: "'.deb' in logrhythm_package"
   notify: restart scsmd
 
