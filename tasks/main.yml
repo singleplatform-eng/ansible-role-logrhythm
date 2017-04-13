@@ -1,12 +1,17 @@
 ---
 
 - name: Install LogRhythem Agent from repo
-  package: name={{logrhythm_package}}
+  package:
+    name: "{{logrhythm_package}}"
+    state: "{{ logrhythm_package_state | default('present')}}"
   when: "'.deb' not in logrhythm_package"
+  notify: restart scsmd
 
 - name: Install LogRhythm Agent from .deb package
-  apt: deb={{logrhythm_package}}
+  apt:
+    deb: "{{logrhythm_package}}"
   when: "'.deb' in logrhythm_package"
+  notify: restart scsmd
 
 - name: Remove scsm init script (breaks over ssh connections)
   file:
