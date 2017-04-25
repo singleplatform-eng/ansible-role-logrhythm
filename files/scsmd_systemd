@@ -1,0 +1,13 @@
+[Unit]
+Description=LogRhythm System Monitor Agent
+After=network.target
+
+[Service]
+Environment=LR_HOME=/opt/logrhythm/scsm
+Environment=LD_LIBRARY_PATH=/opt/logrhythm/scsm/lib
+ExecStart=/opt/logrhythm/scsm/bin/scsmd
+SuccessExitStatus=15
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
