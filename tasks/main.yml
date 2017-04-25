@@ -18,13 +18,23 @@
       state: absent
       path: /etc/init.d/scsm
 
-- name: Copy /etc/init/scsmd.conf
+- name: Copy upstart script
   copy:
       src: scsmd_upstart
       dest: /etc/init/scsmd.conf
       mode: 0644
       owner: root
       group: root
+  when: ansible_distribution_release == 'trusty'
+
+- name: Copy systemd unit file
+  copy:
+      src: scsmd_systemd
+      dest: /lib/systemd/system/scsmd.service
+      mode: 0644
+      owner: root
+      group: root
+  when: ansible_distribution_release == 'xenial'
 
 - name: Update scsm.ini
   template:
