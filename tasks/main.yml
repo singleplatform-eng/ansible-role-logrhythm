@@ -1,6 +1,6 @@
 ---
 
-- name: Install LogRhythem Agent from repo
+- name: Install LogRhythm Agent from repo
   package:
     name: "{{logrhythm_package}}"
     state: "{{ logrhythm_package_state | default('present')}}"
