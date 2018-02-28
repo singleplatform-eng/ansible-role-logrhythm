@@ -8,7 +8,12 @@ logrhythm_config:
     General:
         LogLevel: 4
     'Mediator 1':
-        Host: "{{logrhythm_host}}"
+        Host: "{{logrhythm_host_1}}"
+        ServerPort: 443
+        ClientAddress: "{{logrhythm_client_address}}"
+        ClientPort: 3333
+    'Mediator 2':
+        Host: "{{logrhythm_host_2}}"
         ServerPort: 443
         ClientAddress: "{{logrhythm_client_address}}"
         ClientPort: 3333
