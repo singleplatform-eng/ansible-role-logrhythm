@@ -4,3 +4,5 @@
   service:
     name: scsmd
     state: restarted
+  service: name=scsmd state=restarted
+  when: logrhythm_manage

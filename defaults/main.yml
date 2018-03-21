@@ -1,5 +1,8 @@
 ---
 
+logrhythm_install: true
+logrhythm_manage: true
+
 #logrhythm_host: CHANGE_THIS
 logrhythm_client_address: 0
 logrhythm_package: scsm
