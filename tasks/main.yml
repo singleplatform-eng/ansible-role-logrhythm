@@ -20,8 +20,8 @@
 - block:
   - name: Remove scsm init script (breaks over ssh connections)
     file:
-        state: absent
-        path: /etc/init.d/scsm
+      state: absent
+      path: /etc/init.d/scsm
 
   - name: Copy upstart script
     copy:
@@ -40,7 +40,8 @@
         owner: root
         group: root
     when: ansible_distribution_release == 'xenial'
-  when: logrhythm_package_installed.changed
+  when: true
+  #when: logrhythm_package_installed.changed
 
 - name: Update scsm.ini
   template:

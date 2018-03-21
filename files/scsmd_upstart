@@ -1,14 +1,16 @@
 description	"LogRhythm System Monitor Agent"
 
 start on runlevel [2345]
-stop on runlevel [06]
+stop on runlevel [016]
 
 respawn
 respawn limit 10 5
 
-script
-    export LR_HOME=/opt/logrhythm/scsm
-    export LD_LIBRARY_PATH=$LR_HOME/lib
+env LR_HOME=/opt/logrhythm/scsm
+export LR_HOME
+env LD_LIBRARY_PATH=$LR_HOME/lib
+export LD_LIBRARY_PATH
 
-    exec $LR_HOME/bin/scsmd
+script
+    exec $LR_HOME/bin/scsmd $LR_HOME
 end script
