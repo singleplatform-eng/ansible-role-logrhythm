@@ -1,59 +1,63 @@
 ---
+- block:
+  - name: Install LogRhythm Agent from repo
+    package:
+      name: "{{logrhythm_package}}"
+      state: "{{ logrhythm_package_state | default('present')}}"
+      update_cache: yes
+      cache_valid_time: "{{apt_cache_valid_time | default (3600)}}"
+    when: "'.deb' not in logrhythm_package"
+    register: logrhythm_package_installed
+    notify: restart scsmd
 
-- name: Install LogRhythm Agent from repo
-  package:
-    name: "{{logrhythm_package}}"
-    state: "{{ logrhythm_package_state | default('present')}}"
-    update_cache: yes
-    cache_valid_time: "{{apt_cache_valid_time | default (3600)}}"
-  when: "'.deb' not in logrhythm_package"
-  register: logrhythm_package_installed
-  notify: restart scsmd
+  - name: Install LogRhythm Agent from .deb package
+    apt:
+      deb: "{{logrhythm_package}}"
+    when: "'.deb' in logrhythm_package"
+    register: logrhythm_package_installed
+    notify: restart scsmd
 
-- name: Install LogRhythm Agent from .deb package
-  apt:
-    deb: "{{logrhythm_package}}"
-  when: "'.deb' in logrhythm_package"
-  register: logrhythm_package_installed
-  notify: restart scsmd
+  - block:
+    - name: Remove scsm init script (breaks over ssh connections)
+      file:
+          state: absent
+          path: /etc/init.d/scsm
+
+    - name: Copy upstart script
+      copy:
+          src: scsmd_upstart
+          dest: /etc/init/scsmd.conf
+          mode: 0644
+          owner: root
+          group: root
+      when: ansible_distribution_release == 'trusty'
+
+    - name: Copy systemd unit file
+      copy:
+          src: scsmd_systemd
+          dest: /lib/systemd/system/scsmd.service
+          mode: 0644
+          owner: root
+          group: root
+      when: ansible_distribution_release == 'xenial'
+    when: logrhythm_package_installed.changed
+  when: logrhythm_install
 
 - block:
-  - name: Remove scsm init script (breaks over ssh connections)
-    file:
-      state: absent
-      path: /etc/init.d/scsm
-
-  - name: Copy upstart script
-    copy:
-        src: scsmd_upstart
-        dest: /etc/init/scsmd.conf
-        mode: 0644
+  - name: Update scsm.ini
+    template:
+        src: scsm.ini.j2
+        dest: /opt/logrhythm/scsm/config/scsm.ini
+        mode: 0600
         owner: root
         group: root
-    when: ansible_distribution_release == 'trusty'
+    notify: restart scsmd
+    when: logrhythm_package_installed.changed
 
-  - name: Copy systemd unit file
-    copy:
-        src: scsmd_systemd
-        dest: /lib/systemd/system/scsmd.service
-        mode: 0644
-        owner: root
-        group: root
-    when: ansible_distribution_release == 'xenial'
-  when: true
-  #when: logrhythm_package_installed.changed
 
-- name: Update scsm.ini
-  template:
-      src: scsm.ini.j2
-      dest: /opt/logrhythm/scsm/config/scsm.ini
-      mode: 0600
-      owner: root
-      group: root
-  notify: restart scsmd
-
-- name: Ensure scsm is started
-  service:
-    name: scsmd
-    state: started
-    enabled: yes
+  - name: Ensure scsm is started
+    service:
+      name: scsmd
+      state: started
+      enabled: yes
+  when: logrhythm_manage
