@@ -54,6 +54,7 @@
     notify: restart scsmd
     when: logrhythm_package_installed.changed
 
+
   - name: Ensure scsm is started
     service:
       name: scsmd
