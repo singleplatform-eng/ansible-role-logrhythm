@@ -54,6 +54,6 @@
 
 - name: Ensure scsm is started
   service:
-    name: scsm
+    name: scsmd
     state: started
     enabled: yes
