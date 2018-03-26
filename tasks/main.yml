@@ -14,7 +14,7 @@
     apt:
       deb: "{{logrhythm_package}}"
     when: "'.deb' in logrhythm_package"
-    register: logrhythm_package_installed
+    register: logrhythm_deb_package_installed
     notify: restart scsmd
 
   - block:
@@ -40,7 +40,7 @@
           owner: root
           group: root
       when: ansible_distribution_release == 'xenial'
-    when: logrhythm_package_installed.changed
+    when: logrhythm_package_installed.changed or logrhythm_deb_package_installed.changed
   when: logrhythm_install
 
 - block:
