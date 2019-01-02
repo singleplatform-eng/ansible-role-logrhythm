@@ -1,6 +1,6 @@
-{% for section,config in logrhythm_config.iteritems() | sort %}
+{% for section,config in logrhythm_config.items() | sort %}
 [{{section}}]
-{% for k,v in config.iteritems() | sort %}
+{% for k,v in config.items() | sort %}
 {{k}}={{v}}
 {% endfor %}
 
