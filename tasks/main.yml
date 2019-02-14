@@ -39,7 +39,7 @@
           mode: 0644
           owner: root
           group: root
-      when: ansible_distribution_release == 'xenial'
+      when: ansible_distribution_release == 'bionic' or 'xenial'
     when: logrhythm_package_installed.changed or logrhythm_deb_package_installed.changed
   when: logrhythm_install
 
